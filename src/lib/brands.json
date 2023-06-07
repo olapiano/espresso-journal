@@ -1,0 +1,33 @@
+[
+    {
+        "version": "0.1.0",
+        "_id": 0,
+        "name": "Sage"
+    },
+    {
+        "version": "0.1.0",
+        "_id": 1,
+        "name": "Rancilio"
+    },
+    {
+        "version": "0.1.0",
+        "_id": 2,
+        "name": "Knock"
+    },
+    {
+        "version": "0.1.0",
+        "_id": 3,
+        "name": "De'Longhi"
+    },
+    {
+        "version": "0.1.0",
+        "_id": 4,
+        "name": "Gaggia"
+    },
+    {
+        "version": "0.1.0",
+        "_id": 5,
+        "name": "Flair"
+    }
+
+]

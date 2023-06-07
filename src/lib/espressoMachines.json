@@ -1,0 +1,41 @@
+[
+    {
+        "version": "0.1.0",
+        "_id": 0,
+        "_brandId": 0,
+        "model": "Bambino Plus",
+        "portafilterSize": 54,
+        "temperature": {
+            "max": 93,
+            "min": null,
+            "steps": null
+        },
+        "builtInGrinder": false
+    },
+    {
+        "version": "0.1.0",
+        "_id": 1,
+        "_brandId": 0,
+        "model": "The Barista Express",
+        "portafilterSize": 54,
+        "temperature": {
+            "max": 93,
+            "min": null,
+            "steps": null
+        },
+        "builtInGrinder": 0
+    },
+    {
+        "version": "0.1.0",
+        "_id": 2,
+        "_brandId": 3,
+        "model": "Classic",
+        "portafilterSize": 58,
+        "temperature": {
+            "max": 93,
+            "min": null,
+            "steps": null
+        },
+        "builtInGrinder": false
+    }
+]

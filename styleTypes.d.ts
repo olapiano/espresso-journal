@@ -1,0 +1,1 @@
+type ButtonColors = "default" | "alternative" | "red" | "green"

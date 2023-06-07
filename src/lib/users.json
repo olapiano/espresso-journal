@@ -1,0 +1,47 @@
+[
+    {
+        "version": "0.1.0",
+        "username": "olapiano",
+        "email": "ola.piano@gmail.com",
+        "password": "asdfgh",
+        "birthday": "1980-08-19",
+        "espressoMachines": [],
+        "grinders": [],
+        "equipment": {
+            "weissDistributionTool": true,
+            "leveller": true,
+            "distributionTool": false,
+            "dosingCup": false,
+            "portafilter": [
+                {    
+                    "size": 54,
+                    "maxAmount": 8,
+                    "minAmount": 10,
+                    "shot": "single",
+                    "wall": "single"
+                },
+                {
+                    "size": 54,
+                    "maxAmount": 8,
+                    "minAmount": 10,
+                    "shot": "single",
+                    "wall": "dual"
+                },
+                {
+                    "size": 54,
+                    "maxAmount": 16,
+                    "minAmount": 19,
+                    "shot": "double",
+                    "wall": "single"
+                },
+                {
+                    "size": 54,
+                    "maxAmount": 16,
+                    "minAmount": 19,
+                    "shot": "double",
+                    "wall": "dual"
+                }
+            ]
+        }
+    }
+]

@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/UserProfile.tsx", "src/pages/api/coffeeMakers.js", "src/app/coffee/coffeeMakers/coffeeMakersApi.js"],
   "exclude": ["node_modules"]
 }
