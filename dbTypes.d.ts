@@ -1,5 +1,3 @@
-/* Database */
-
 type Brand = {
     version: "0.1.0"
     _id: string
@@ -70,23 +68,24 @@ type CoffeeRoaster = {
     location: string
 }
 
-type CoffeBeans = {
+type CoffeeBlend = {
     version: "0.1.0"
     _id: string
+    name: string
     coffeeRoaster: CoffeeRoaster
-    composition?: {
-        arabica: number
-        robusta: number
-        other: number
-    }
+    composition: {
+        arabica?: number
+        robusta?: number
+        other?: number
+    } | null
     roast: "light" | "medium" | "dark"
-    origin?: string
-    description?: string
+    origin: string | null
+    description: string | null
 }
 
 type CoffeeBatch = {
     version: "0.1.0"
-    beans: CoffeBeans,
+    blend: CoffeeBlend,
     date: {
         roastDate?: Date
         bestBefore?: Date
@@ -98,6 +97,7 @@ type CoffeeBatch = {
 
 type JournalEntry = {
     version: "0.1.0"
+    _id: string
 
     /* Espresso machine */
     espressoMachineId: EspressoMachine[_id]
@@ -160,26 +160,16 @@ type JournalEntry = {
 }
 
 type User = {
+    _id: string
     version: "0.1.0"
-    username: string
     email: string
-    password: string
-    birthday: Date
+    emailVerified: boolean
+    givenName: string
+    familyName: string
+    locale: string
     espressoMachines: EspressoMachine[]
     grinders: Grinder[]
+    equipment: Equipment
     coffee: CoffeeBatch[]
-    equipment: {
-        weissDistributionTool: boolean
-        leveller: boolean
-        distributionTool: boolean
-        dosingCup: boolean
-        portafilterBasket: PortafilterBasket[]
-        presureGauge: boolean
-        puckScreen: {
-            metal: boolean
-            cloth: boolean
-            paper: boolean
-        }
-    }
     journalEntries: JournalEntry[]
 }

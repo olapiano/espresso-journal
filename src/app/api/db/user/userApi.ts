@@ -14,76 +14,64 @@ const fetchOptions = {
 const fetchBody = {
     dataSource: process.env.MONGODB_DATA_SOURCE as string,
     database: 'espresso_journal',
-    collection: 'coffee_roasters',
+    collection: 'users',
 };
   
 const baseUrl = `${process.env.MONGODB_DATA_API_URL as string}/action`;
 
-export async function fetchCoffeeRoasters() {
-    const readData = await fetch(`${baseUrl}/find`, {
-        ...fetchOptions,
-        body: JSON.stringify({
-            ...fetchBody
-        }),
-    });
-    const readDataJson = await readData.json();
-    const coffeeRoasters: CoffeeRoaster[] = readDataJson.documents
-    return coffeeRoasters;
-}
-
-export async function fetchCoffeeRoasterByName(name: string) {
+export async function fetchUserByEmail(email: string) {
   const readData = await fetch(`${baseUrl}/findOne`, {
       ...fetchOptions,
       body: JSON.stringify({
           ...fetchBody,
-          filter: { name: name }
+          filter: { email: email }
       }),
   });
   const readDataJson = await readData.json();
-  const coffeeRoaster: CoffeeRoaster = readDataJson.document
-  return coffeeRoaster;
+  const user: User = readDataJson.document
+  return user;
 }
 
+export async function addUser() {
+    const loginData = await fetch('http://localhost:3000/api/auth/me')
+    console.log(loginData);
 
-export async function addCoffeeRoaster(data: FormData) {
-    const name = data.get('name')
-    const location = data.get('location')
-
-    if (name) {
-      const data = await fetchCoffeeRoasterByName(name.toString())
-      if (data){
-        throw new Error(`The name: ${name} already exist in list of coffee roasters`)
-      }
-    } else {
-      throw new Error(`Name must be filled`)
-    }
-
-    const insertData = await fetch(`${baseUrl}/insertOne`, {
+    /* const insertData = await fetch(`${baseUrl}/insertOne`, {
         ...fetchOptions,
         body: JSON.stringify({
         ...fetchBody,
         document: {
-            name, 
-            location, 
+            email,
+            emailVerified,
+            givenName,
+            familyName, 
+            locale,
+            espressoMachines: []
+            grinders: []
+            equipment: {
+
+            }
+            coffee: []
+            journalEntries: []
             version: "0.1.0"
         },
     })})
-    await insertData.json();
-    revalidatePath('/coffee')
+    await insertData.json(); */
+    revalidatePath('/')
     revalidatePath('/journal')
     revalidatePath('/coffee/server-actions')
 
 
 }
 
-export async function deleteCoffeeRoaster(coffeeRoaster: CoffeeRoaster) {
-    console.log(coffeeRoaster._id)
+export async function deleteCoffeeBlend(coffeeBlend: CoffeeBlend) {
+    console.log(coffeeBlend._id)
     try {
         const deleteData = await fetch(`${baseUrl}/deleteOne`, {
             ...fetchOptions,
             body: JSON.stringify({
               ...fetchBody,
-              filter: { _id: { $oid: coffeeRoaster._id } },
+              filter: { _id: { $oid: coffeeBlend._id } },
             }),
           });
         await deleteData.json();
@@ -97,14 +85,14 @@ export async function deleteCoffeeRoaster(coffeeRoaster: CoffeeRoaster) {
 }
 
 
-export async function editCoffeeRoaster(coffeeRoaster: CoffeeRoaster, newName: string, newLocation: string) {
-    console.log(coffeeRoaster._id, newName, newLocation)
+export async function editCoffeeBlend(coffeeBlend: CoffeeBlend, newName: string, newLocation: string) {
+    console.log(coffeeBlend._id, newName, newLocation)
     try {
         const editData = await fetch(`${baseUrl}/updateOne`, {
             ...fetchOptions,
             body: JSON.stringify({
               ...fetchBody,
-              filter: { _id: { $oid: coffeeRoaster._id } },
+              filter: { _id: { $oid: coffeeBlend._id } },
               update: {
                 $set: {
                   name: newName,

@@ -4,9 +4,11 @@ import { H1, H2, H3, H4, H5, H6, P, A, Strong } from "@/components/base/Typograp
 import { Ul, Ol, listFromArray } from "@/components/base/List"
 import Main from "@/components/base/Main"
 import { FaBeer } from 'react-icons/fa';
+import { addUser } from "./api/db/user/userApi"
 
 export default function Home() {
   const names = ['Arne', 'Bengt', 'Carina', 'Dan']
+  addUser()
   return (
     <Main>
       <FaBeer />

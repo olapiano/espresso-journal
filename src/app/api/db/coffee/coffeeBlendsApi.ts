@@ -1,6 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { fetchCoffeeRoasterByName } from "./coffeeRoastersApi";
 
 const fetchOptions = {
     method: "POST",
@@ -14,12 +15,12 @@ const fetchOptions = {
 const fetchBody = {
     dataSource: process.env.MONGODB_DATA_SOURCE as string,
     database: 'espresso_journal',
-    collection: 'coffee_roasters',
+    collection: 'coffee_blends',
 };
   
 const baseUrl = `${process.env.MONGODB_DATA_API_URL as string}/action`;
 
-export async function fetchCoffeeRoasters() {
+export async function fetchCoffeeBlends() {
     const readData = await fetch(`${baseUrl}/find`, {
         ...fetchOptions,
         body: JSON.stringify({
@@ -27,11 +28,11 @@ export async function fetchCoffeeRoasters() {
         }),
     });
     const readDataJson = await readData.json();
-    const coffeeRoasters: CoffeeRoaster[] = readDataJson.documents
-    return coffeeRoasters;
+    const coffeeBlends: CoffeeBlend[] = readDataJson.documents
+    return coffeeBlends;
 }
 
-export async function fetchCoffeeRoasterByName(name: string) {
+export async function fetchCoffeeBlendByName(name: string) {
   const readData = await fetch(`${baseUrl}/findOne`, {
       ...fetchOptions,
       body: JSON.stringify({
@@ -40,19 +41,31 @@ export async function fetchCoffeeRoasterByName(name: string) {
       }),
   });
   const readDataJson = await readData.json();
-  const coffeeRoaster: CoffeeRoaster = readDataJson.document
-  return coffeeRoaster;
+  const coffeeBlend: CoffeeBlend = readDataJson.document
+  return coffeeBlend;
 }
 
-
-export async function addCoffeeRoaster(data: FormData) {
+export async function addCoffeeBlend(data: FormData) {
     const name = data.get('name')
-    const location = data.get('location')
+    const composition = data.get('composition')
+    const roast = data.get('roast')
+    const origin = data.get('origin')
+    const description = data.get('description')
+    const roasterName = data.get('roasterName')
+    
+    let coffeeRoaster
+    if (roasterName) {
+        coffeeRoaster = await fetchCoffeeRoasterByName(roasterName.toString())
+        console.log(coffeeRoaster)
+        if (!coffeeRoaster) {
+            throw new Error(`An existing coffee roster mst be selected`)
+        }
+    }
 
     if (name) {
-      const data = await fetchCoffeeRoasterByName(name.toString())
-      if (data){
-        throw new Error(`The name: ${name} already exist in list of coffee roasters`)
+      const data = await fetchCoffeeBlendByName(name.toString())
+      if (data?.name === name){
+        throw new Error(`The name: ${name} already exist in the list of coffee blends`)
       }
     } else {
       throw new Error(`Name must be filled`)
@@ -63,8 +76,17 @@ export async function addCoffeeRoaster(data: FormData) {
         body: JSON.stringify({
         ...fetchBody,
         document: {
-            name, 
-            location, 
+            name,
+            composition,
+            roast, 
+            origin, 
+            description,
+            coffeeRoaster: {
+              _id: coffeeRoaster?._id,
+              version: coffeeRoaster?.version,
+              name: coffeeRoaster?.name,
+              location: coffeeRoaster?.location
+            },
             version: "0.1.0"
         },
     })})
@@ -76,14 +98,14 @@ export async function addCoffeeRoaster(data: FormData) {
 
 }
 
-export async function deleteCoffeeRoaster(coffeeRoaster: CoffeeRoaster) {
-    console.log(coffeeRoaster._id)
+export async function deleteCoffeeBlend(coffeeBlend: CoffeeBlend) {
+    console.log(coffeeBlend._id)
     try {
         const deleteData = await fetch(`${baseUrl}/deleteOne`, {
             ...fetchOptions,
             body: JSON.stringify({
               ...fetchBody,
-              filter: { _id: { $oid: coffeeRoaster._id } },
+              filter: { _id: { $oid: coffeeBlend._id } },
             }),
           });
         await deleteData.json();
@@ -97,14 +119,14 @@ export async function deleteCoffeeRoaster(coffeeRoaster: CoffeeRoaster) {
 }
 
 
-export async function editCoffeeRoaster(coffeeRoaster: CoffeeRoaster, newName: string, newLocation: string) {
-    console.log(coffeeRoaster._id, newName, newLocation)
+export async function editCoffeeBlend(coffeeBlend: CoffeeBlend, newName: string, newLocation: string) {
+    console.log(coffeeBlend._id, newName, newLocation)
     try {
         const editData = await fetch(`${baseUrl}/updateOne`, {
             ...fetchOptions,
             body: JSON.stringify({
               ...fetchBody,
-              filter: { _id: { $oid: coffeeRoaster._id } },
+              filter: { _id: { $oid: coffeeBlend._id } },
               update: {
                 $set: {
                   name: newName,

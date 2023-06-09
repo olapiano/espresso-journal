@@ -1,9 +1,9 @@
-import { addCoffeeMaker } from '@/app/api/db/coffee/coffeeRoastersApi'
+import { addCoffeeRoaster } from '@/app/api/db/coffee/coffeeRoastersApi'
 import React from 'react'
 
-const AddCoffeeMaker = () => {
+const AddCoffeeRoaster = () => {
   return (
-    <form action={addCoffeeMaker}>
+    <form action={addCoffeeRoaster}>
         <input type="text" name="name" placeholder="Name" />
         <input type="text" name="location" placeholder="Location" />
         <button type="submit" >Add</button>
@@ -11,4 +11,4 @@ const AddCoffeeMaker = () => {
   )
 }
 
-export default AddCoffeeMaker
+export default AddCoffeeRoaster

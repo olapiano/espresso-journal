@@ -1,30 +1,30 @@
-import { deleteCoffeeMaker, fetchCoffeeMakers, editCoffeeMaker } from '@/app/api/db/coffee/coffeeRoastersApi'
+import { deleteCoffeeRoaster, fetchCoffeeRoasters, editCoffeeRoaster } from '@/app/api/db/coffee/coffeeRoastersApi'
 import React from 'react'
 import { H3, P } from './base/TypographyComponent'
 import Hr from './base/Hr'
 
-export default async function CoffeeMakersList() {
-    const coffeeMakers = await fetchCoffeeMakers()
+export default async function CoffeeRoastersList() {
+    const coffeeRoasters = await fetchCoffeeRoasters()
     
     let content
 
-    if (!coffeeMakers || coffeeMakers.length === 0) {
+    if (!coffeeRoasters || coffeeRoasters.length === 0) {
         content = (
             <div>
-                <p>No coffee makers available</p>
+                <p>No coffee roasters available</p>
             </div>
         )
     } else {
         content = (
         <ul>
-            {coffeeMakers.map((coffeeMaker) => 
-                <li key={coffeeMaker._id}>
-                    <H3>{coffeeMaker.name}</H3>
-                    <P>{coffeeMaker.location}</P>
+            {coffeeRoasters.map((coffeeRoaster) => 
+                <li key={coffeeRoaster._id}>
+                    <H3>{coffeeRoaster.name}</H3>
+                    <P>{coffeeRoaster.location}</P>
                     <form>
                         <button type="submit" formAction={async () => { 
                             'use server'
-                            await editCoffeeMaker(coffeeMaker, "Nytt namn", "Ny plats")
+                            await editCoffeeRoaster(coffeeRoaster, "Nytt namn", "Ny plats")
                         }}>
                             Edit
                         </button>
@@ -32,7 +32,7 @@ export default async function CoffeeMakersList() {
 
                         <button type="submit" formAction={async () => { 
                             'use server'
-                            await deleteCoffeeMaker(coffeeMaker)
+                            await deleteCoffeeRoaster(coffeeRoaster)
                         }}>
                             Delete
                         </button>
